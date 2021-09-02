@@ -7,7 +7,7 @@ module.exports = {
     createComment: function (req, res) {
         
         console.log('(on est dans le commentCtrl)');
-        var postId = parseInt(req.params.postId);
+        const postId = parseInt(req.params.postId);
 
         console.log('(commentCtrl) le body de la req: '+ req.body);
 
@@ -15,6 +15,8 @@ module.exports = {
         console.log('(commentCtrl) postId du parametre est : '+ postId);
         // console.log('(commentCtrl) le commentaire est: '+ req.body.comment);
         // console.log('(commentCtrl) userId du body est: '+ req.body.userId);
+        console.log(req.body.userId);
+        const userId = req.body.userId
 
         if (postId <= 0) {
             console.log('cas 1');
