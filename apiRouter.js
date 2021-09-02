@@ -11,17 +11,17 @@ exports.router = (function() {
     // Routes Users -------------------------------------------------------------
     apiRouter.route('/auth/signup/').post(usersCtrl.signup);
     apiRouter.route('/auth/login/').post(usersCtrl.login);
-    apiRouter.route('/auth/profile/').get(usersCtrl.getUserProfile);
-    apiRouter.route('/auth/delete/').delete(usersCtrl.deleteUser);
+    apiRouter.route('/auth/profile/').get(auth, usersCtrl.getUserProfile);
+    apiRouter.route('/auth/delete/').delete(auth, usersCtrl.deleteUser);
 
 
     // Routes Post---------------------------------------------------------------
     apiRouter.route('/posts/edit/').post(auth, multer , postCtrl.createPost);
-    apiRouter.route('/posts/').get(postCtrl.listPost);
+    apiRouter.route('/posts/').get(auth, postCtrl.listPost);
 
     // Routes Comments ----------------------------------------------------------
-    apiRouter.route('/posts/:postId/comment/').post(commentCtrl.createComment);
-    apiRouter.route('/posts/:postId/listComment/').get(commentCtrl.listComment);
+    apiRouter.route('/posts/:postId/comment/').post(auth, commentCtrl.createComment);
+    apiRouter.route('/posts/:postId/listComment/').get(auth, commentCtrl.listComment);
     
     return apiRouter;
 })();

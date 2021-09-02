@@ -5,28 +5,26 @@ const fs = require('fs');
 
 module.exports = {
     createPost: function (req, res) {
-        console.log('hello');
-        // console.log('la requete contient: '+ req.body);
-        var token = req.headers.authorization;
-        // console.log(head);
-        // var userId = jwtUtils.getUserId(token);
-        let reponse = req.body
+        console.log('(createPost)');
+   
+        // let userId = req.body.userId;
 
-        console.log('user est: '+ reponse);
+        console.log(req.body);
+        console.log(req.file);
+        // console.log(req.file.filename);
+        console.log(req.tokenUserId);
+        if(req.tokenUserId != req.body.userId) {
+            return res.status(403).json({'error': 'Accés non autorisé !'} )
+        }
 
         if (req.body.title == null || req.body.description == null) {
             return res.status(400).json({ 'error': 'Titre ou description manqant' });
         }
-        
-       console.log(req.body);
-       console.log(req.file.filename);
-       console.log(req.headers.authorization);
-
         models.User.findOne({
-            where: { id: userId }
+            where: { id: req.body.userId }
         })
             .then((userFound) => {
-                console.log('user trouvé est : '+userFound.id + ' nom: '+ userFound.lastname);
+                console.log('user trouvé est : ' + userFound.id + ' nom: ' + userFound.lastname);
                 models.Post.create({
                     title: req.body.title,
                     description: req.body.description,
@@ -53,7 +51,7 @@ module.exports = {
 
         if (limit > 50) {
             limit = 50;
-          }
+        }
 
         models.Post.findAll({
             order: [['createdAt', 'DESC']],
@@ -70,7 +68,7 @@ module.exports = {
             } else {
                 res.status(404).json({ "error": "no posts found" });
             }
-        }).catch( (err) => {
+        }).catch((err) => {
             console.log(err);
             res.status(500).json({ "error": "invalid fields" });
         })

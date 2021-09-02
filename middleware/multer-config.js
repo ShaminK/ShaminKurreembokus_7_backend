@@ -1,4 +1,5 @@
 const multer = require('multer');
+const jwt = require('jsonwebtoken')
 
 
 const MIME_TYPES = {
@@ -12,10 +13,10 @@ const storage = multer.diskStorage({
     destination: (req, file, callback) => {
         callback(null, 'images')
     },
-    filename: (req, file, callback)=> {
+    filename: (req, file, callback) => {
         const name = file.originalname.split(' ');
         const extension = MIME_TYPES[file.mimetype];
-        callback(null, name + Date.now()+ '.' + extension);
+        callback(null, name + Date.now() + '.' + extension);
     }
 });
 

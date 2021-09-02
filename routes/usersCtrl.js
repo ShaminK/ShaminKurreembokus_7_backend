@@ -17,37 +17,37 @@ module.exports = {
         var password = req.body.password;
         var lastname = req.body.lastname;
         var firstname = req.body.firstname;
-        console.log('le mail est: ' + mail);
-        console.log('le pw est: ' + password);
-        console.log('le ln est: ' + lastname);
-        console.log('le fn est: ' + firstname);
+        console.log('(usersCtrl/signup) le mail est: ' + mail);
+        console.log('(usersCtrl/signup) le pw est: ' + password);
+        console.log('(usersCtrl/signup) le ln est: ' + lastname);
+        console.log('(usersCtrl/signup) le fn est: ' + firstname);
 
         if (mail == null || password == null || lastname == null || firstname == null) {
-            console.log('cas 1');
+            console.log('(usersCtrl/signup) cas 1');
             return res.status(400).json({ 'error': `Information(s) manquante(s)` })
         }
 
         if (lastname.length <= 1) {
-            console.log('cas 2');
+            console.log('(usersCtrl/signup) cas 2');
             return res.status(400).json({ 'error': `Votre nom doit contenir plus d'une lettre` });
         }
 
         if (firstname.length <= 1) {
-            console.log('cas 3');
+            console.log('(usersCtrl/signup) cas 3');
             return res.status(400).json({ 'error': `Votre prénom doit contenir plus d'une lettre` });
         }
 
         if (!EMAIL_REGEX.test(mail)) {
-            console.log('cas 4');
+            console.log('(usersCtrl/signup) cas 4');
             return res.status(400).json({ 'error': `Entrez une adresse mail` });
         }
 
         if (!PASSWORD_REGEX.test(password)) {
-            console.log('cas 5');
+            console.log('(usersCtrl/signup) cas 5');
             return res.status(400).json({ 'error': `Le mot de passe doit contenir en 8 à 15 caractères et doit inclure aux moins 1 chiffre` })
         }
 
-        console.log('on est la');
+        console.log('(usersCtrl/signup) ');
         models.User.findOne({
             attributes: ['mail'],
             where: { mail }
@@ -87,7 +87,7 @@ module.exports = {
             return res.status(400).json({ 'error': 'l\'adresse mail et/ou mot de passe manquant(s)' })
         }
 
-        console.log('le corps de la requete contient: ' + req.body.mail + ' et ' + req.body.password);
+        console.log('(usersCtrl/login) le corps de la requete contient: ' + req.body.mail + ' et ' + req.body.password);
 
         models.User.findOne({
             attributes: ['id', 'mail', 'password', 'lastname', 'firstname'],
@@ -97,7 +97,7 @@ module.exports = {
                 if (!user) {
                     return res.status(401).json({ error: 'Utilisateur non trouvé !' })
                 }
-                console.log('on est la : ' + user.firstname)
+                console.log('(usersCtrl/login) User trouvé : ' + user.firstname)
                 bcrypt.compare(req.body.password, user.password)
                     .then(valid => {
                         if (!valid) {

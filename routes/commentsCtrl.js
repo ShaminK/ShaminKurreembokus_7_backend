@@ -5,13 +5,30 @@ const { listPost } = require('./postCtrl');
 module.exports = {
     // creer un commentaire
     createComment: function (req, res) {
-        var token = req.headers.authorization.split(' ')[1];
-        var userId = jwtUtils.getUserId(token);
-
+        
+        console.log('(on est dans le commentCtrl)');
         var postId = parseInt(req.params.postId);
 
+        console.log('(commentCtrl) le body de la req: '+ req.body);
+
+        console.log('(commentCtrl) userid du token: '+ req.tokenUserId);
+        console.log('(commentCtrl) postId du parametre est : '+ postId);
+        // console.log('(commentCtrl) le commentaire est: '+ req.body.comment);
+        // console.log('(commentCtrl) userId du body est: '+ req.body.userId);
+
         if (postId <= 0) {
+            console.log('cas 1');
             return res.status(400).json({ 'error': 'Le paramètre est invalide !' })
+        }
+
+        if(req.tokenUserId != req.body.userId) {
+            console.log('cas 2');
+            return res.status(403).json({'error': 'Accés non autorisé !'} )
+        }
+
+        if (req.body.comment == null) {
+            console.log('cas 3');
+            return res.status(400).json({ 'error': `Aucun commentaire` })
         }
 
         models.Post.findOne({
@@ -55,8 +72,8 @@ module.exports = {
             where: { postId: postId },
             // include: [
             //     {
-            //         model: models.User,
-            //         // attributes: ['lastname', 'firstname']
+            //         model: models.Post,
+            //         attributes: ["postId", "userId"]
             //     },
             // ]
         }).then((comments)=> {
