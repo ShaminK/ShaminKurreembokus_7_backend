@@ -156,15 +156,32 @@ module.exports = {
     // -----------------------------------------------------------------------
 
     deleteUser: function (req, res) {
-        var token = req.headers.authorization.split(' ')[1];
-        // console.log('Ici' + token);
-        var userId = jwtUtils.getUserId(token);
+        console.log('(userCtrl/ delete) etape 1');
+        // let userIdToken = req.tokenUserId
+        // let userId = req.body.userId
+        
+        console.log('(userCtrl/ delete) user id du token est '+ req.tokenUserId);
+        console.log('(userCtrl/ delete) user id du body est '+ req.body.userId);
+        
+        
 
-        if (userId < 0)
+
+
+        if (req.tokenUserId < 0){
             return res.status(400).json({ 'error': 'Mauvais token' });
+        }
+
+        console.log('(userCtrl/ delete)  etape 2');
+            
+        if (req.body.userId != req.tokenUserId) {
+            return res.status(401).json({ 'error': 'Accés interdit' });
+        }
+
+        console.log('(userCtrl/ delete) etape 3');
+
 
         models.User.destroy({
-            where: { id: userId }
+            where: { id: req.body.userId }
         })
             .then((userRmove) => {
                 res.status(200).json({ 'message': 'Le compte utlisateur a été supprimé' })

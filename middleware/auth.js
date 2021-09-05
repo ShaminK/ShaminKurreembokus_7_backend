@@ -9,10 +9,7 @@ const multer = require('multer');
 module.exports = (req, res, next) => {
     console.log('(auth)');
     try {
-
-        console.log('(auth) le commentaire est '+ req.body.comment);
-        console.log('(auth) userId est ' + req.body.userId);
-        
+    
         const token = JSON.parse(req.headers.authorization);
         console.log('(auth) le token du headers est : ' + token);
 
