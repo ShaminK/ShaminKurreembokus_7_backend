@@ -12,23 +12,22 @@ module.exports = (sequelize, DataTypes) => {
     static associate(models) {
       // define association here
 
-      models.User.belongsToMany(models.Post, {
-        through: models.Comment,
-        foreignKey: 'userId',
-        otherKey: 'postId',
-        onDelete: 'cascade'
-      });
+      // models.User.belongsToMany(models.Post, {
+      //   through: models.Comment,
+      //   foreignKey: 'userId',
+      //   otherKey: 'postId',
+      //   onDelete: 'cascade'
+      // });
 
-      models.Post.belongsToMany(models.User, {
-        through: models.Comment,
-        foreignKey: 'postId',
-        otherKey: 'userId',
-        onDelete: 'cascade'
-      });
+      // models.Post.belongsToMany(models.User, {
+      //   through: models.Comment,
+      //   foreignKey: 'postId',
+      //   otherKey: 'userId',
+      //   onDelete: 'cascade'
+      // });
 
       models.Comment.belongsTo(models.User, {
         foreignKey: 'userId',
-        as: 'user',
         onDelete: 'cascade'
       });
 

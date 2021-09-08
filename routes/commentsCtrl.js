@@ -72,12 +72,10 @@ module.exports = {
 
         models.Comment.findAll({
             where: { postId: postId },
-            // include: [
-            //     {
-            //         model: models.Post,
-            //         attributes: ["postId", "userId"]
-            //     },
-            // ]
+            include: [{
+                model: models.User,
+                attributes: ['lastname', 'firstname']
+            }]
         }).then((comments)=> {
             if (comments) {
                 res.status(200).json(comments)
