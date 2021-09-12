@@ -44,7 +44,7 @@ module.exports = {
 
         if (!PASSWORD_REGEX.test(password)) {
             console.log('(usersCtrl/signup) cas 5');
-            return res.status(400).json({ 'error': `Le mot de passe doit contenir en 8 à 15 caractères et doit inclure aux moins 1 chiffre` })
+            return res.status(400).json({ 'error': `Le mot de passe doit contenir entre 8 à 15 caractères et doit inclure aux moins 1 chiffre` })
         }
 
         console.log('(usersCtrl/signup) ');

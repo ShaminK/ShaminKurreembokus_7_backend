@@ -72,6 +72,7 @@ module.exports = {
 
         models.Comment.findAll({
             where: { postId: postId },
+            order: [['createdAt', 'DESC']],
             include: [{
                 model: models.User,
                 attributes: ['lastname', 'firstname']
