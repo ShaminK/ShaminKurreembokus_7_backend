@@ -7,16 +7,12 @@ const multer = require('multer');
 // Puis le ctrl appelé verifira si req.tokenUserId = req.body.userId
 
 module.exports = (req, res, next) => {
-    console.log('(auth)');
     try {
     
         const token = JSON.parse(req.headers.authorization);
-        console.log('(auth) le token du headers est : ' + token);
-
-        const decodedToken = jwt.verify(token, 'coucou');
+        const decodedToken = jwt.verify(token, 'z14hbtegvr5f2cze');
 
         const userId = decodedToken.userId;
-        console.log('(auth) userId du token décodé :'+ userId);
         
         req.tokenUserId = userId;
             next();

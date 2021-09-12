@@ -17,33 +17,29 @@ module.exports = {
         var password = req.body.password;
         var lastname = req.body.lastname;
         var firstname = req.body.firstname;
-        console.log('(usersCtrl/signup) le mail est: ' + mail);
-        console.log('(usersCtrl/signup) le pw est: ' + password);
-        console.log('(usersCtrl/signup) le ln est: ' + lastname);
-        console.log('(usersCtrl/signup) le fn est: ' + firstname);
-
+        
         if (mail == null || password == null || lastname == null || firstname == null) {
-            console.log('(usersCtrl/signup) cas 1');
+            
             return res.status(400).json({ 'error': `Information(s) manquante(s)` })
         }
 
         if (lastname.length <= 1) {
-            console.log('(usersCtrl/signup) cas 2');
+            
             return res.status(400).json({ 'error': `Votre nom doit contenir plus d'une lettre` });
         }
 
         if (firstname.length <= 1) {
-            console.log('(usersCtrl/signup) cas 3');
+            
             return res.status(400).json({ 'error': `Votre prénom doit contenir plus d'une lettre` });
         }
 
         if (!EMAIL_REGEX.test(mail)) {
-            console.log('(usersCtrl/signup) cas 4');
+            
             return res.status(400).json({ 'error': `Entrez une adresse mail` });
         }
 
         if (!PASSWORD_REGEX.test(password)) {
-            console.log('(usersCtrl/signup) cas 5');
+            
             return res.status(400).json({ 'error': `Le mot de passe doit contenir entre 8 à 15 caractères et doit inclure aux moins 1 chiffre` })
         }
 
@@ -87,7 +83,6 @@ module.exports = {
             return res.status(400).json({ 'error': 'l\'adresse mail et/ou mot de passe manquant(s)' })
         }
 
-        console.log('(usersCtrl/login) le corps de la requete contient: ' + req.body.mail + ' et ' + req.body.password);
 
         models.User.findOne({
             attributes: ['id', 'mail', 'password', 'lastname', 'firstname'],
@@ -109,7 +104,7 @@ module.exports = {
                             'firstname': user.firstname,
                             'token': jwt.sign(
                                 { userId: user.id },
-                                'coucou',
+                                'z14hbtegvr5f2cze',
                                 {expiresIn: '24h'}
                             )
                         });
@@ -127,10 +122,8 @@ module.exports = {
     // -----------------------------------------------------------------------
     getUserProfile: function (req, res) {
         var token = req.headers.authorization.split(' ')[1];
-        console.log('Ici' + token);
         var userId = jwtUtils.getUserId(token);
 
-        console.log(userId);
 
         if (userId < 0)
             return res.status(400).json({ 'error': 'Mauvais token' });
@@ -156,16 +149,6 @@ module.exports = {
     // -----------------------------------------------------------------------
 
     deleteUser: function (req, res) {
-        console.log('(userCtrl/ delete) etape 1');
-        // let userIdToken = req.tokenUserId
-        // let userId = req.body.userId
-        
-        console.log('(userCtrl/ delete) user id du token est '+ req.tokenUserId);
-        console.log('(userCtrl/ delete) user id du body est '+ req.body.userId);
-        
-        
-
-
 
         if (req.tokenUserId < 0){
             return res.status(400).json({ 'error': 'Mauvais token' });
@@ -176,8 +159,6 @@ module.exports = {
         if (req.body.userId != req.tokenUserId) {
             return res.status(401).json({ 'error': 'Accés interdit' });
         }
-
-        console.log('(userCtrl/ delete) etape 3');
 
 
         models.User.destroy({

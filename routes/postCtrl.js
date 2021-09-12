@@ -5,14 +5,7 @@ const fs = require('fs');
 
 module.exports = {
     createPost: function (req, res) {
-        console.log('(createPost)');
-   
-        // let userId = req.body.userId;
-
-        console.log(req.body);
-        console.log(req.file);
-        // console.log(req.file.filename);
-        console.log(req.tokenUserId);
+        
         if(req.tokenUserId != req.body.userId) {
             return res.status(403).json({'error': 'Accés non autorisé !'} )
         }
@@ -24,7 +17,6 @@ module.exports = {
             where: { id: req.body.userId }
         })
             .then((userFound) => {
-                console.log('user trouvé est : ' + userFound.id + ' nom: ' + userFound.lastname);
                 models.Post.create({
                     title: req.body.title,
                     description: req.body.description,

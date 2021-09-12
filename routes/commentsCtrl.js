@@ -6,30 +6,22 @@ module.exports = {
     // creer un commentaire
     createComment: function (req, res) {
         
-        console.log('(on est dans le commentCtrl)');
         const postId = parseInt(req.params.postId);
 
-        console.log('(commentCtrl) le body de la req: '+ req.body);
-
-        console.log('(commentCtrl) userid du token: '+ req.tokenUserId);
-        console.log('(commentCtrl) postId du parametre est : '+ postId);
-        // console.log('(commentCtrl) le commentaire est: '+ req.body.comment);
-        // console.log('(commentCtrl) userId du body est: '+ req.body.userId);
-        console.log(req.body.userId);
         const userId = req.body.userId
 
         if (postId <= 0) {
-            console.log('cas 1');
+           
             return res.status(400).json({ 'error': 'Le paramètre est invalide !' })
         }
 
         if(req.tokenUserId != req.body.userId) {
-            console.log('cas 2');
+            
             return res.status(403).json({'error': 'Accés non autorisé !'} )
         }
 
         if (req.body.comment == null) {
-            console.log('cas 3');
+           
             return res.status(400).json({ 'error': `Aucun commentaire` })
         }
 
@@ -65,7 +57,6 @@ module.exports = {
     // Recupérer la liste de commentaire d'un post
     listComment: function (req, res) {
         var postId = (req.params.postId);
-        console.log('le post est : '+ postId);
         if (postId <= 0) {
             return res.status(400).json({ 'error': 'Le paramètre est invalide !' })
         }
