@@ -13,6 +13,7 @@ module.exports = {
         if (req.body.title == null || req.body.description == null) {
             return res.status(400).json({ 'error': 'Titre ou description manqant' });
         }
+        
         models.User.findOne({
             where: { id: req.body.userId }
         })
