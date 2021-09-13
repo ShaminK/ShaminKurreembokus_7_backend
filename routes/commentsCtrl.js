@@ -25,25 +25,52 @@ module.exports = {
             return res.status(400).json({ 'error': `Aucun commentaire` })
         }
         
+        // try {
+        //     const post = await models.Post.findOne({
+        //     where: { id: postId }
+        // })
+        // } catch (error) {
+        //     res.status(404).json({ 'error': 'Le post est introuvable !' })
+        // }
+        
+        // try {
+        //      let user = await models.User.findOne({
+        //     where: { id: userId }
+        // })
+        // } catch (error) {
+        //     res.status(404).json({ 'error': 'Utilisateur est introuvable !' })
+        // }
+       
+
+        // try {
+        //     let comment = await models.Comment.create({
+        //     postId: postId,
+        //     userId: userId,
+        //     comment: req.body.comment
+        // })
+        // } catch (error) {
+        //     console.log(error);
+        //     res.status(500).json({ 'error': 'Impossible de créer un commentaire !' })
+        // }
+        let post, user, comment
         try {
-            const post = await models.Post.findOne({
+            post = await models.Post.findOne({
             where: { id: postId }
         })
         } catch (error) {
             res.status(404).json({ 'error': 'Le post est introuvable !' })
+            return
         }
-        
         try {
-             let user = await models.User.findOne({
+             user = await models.User.findOne({
             where: { id: userId }
         })
         } catch (error) {
             res.status(404).json({ 'error': 'Utilisateur est introuvable !' })
+            return
         }
-       
-
         try {
-            let comment = await models.Comment.create({
+            comment = await models.Comment.create({
             postId: postId,
             userId: userId,
             comment: req.body.comment
@@ -51,13 +78,13 @@ module.exports = {
         } catch (error) {
             console.log(error);
             res.status(500).json({ 'error': 'Impossible de créer un commentaire !' })
+            return
         }
-
         
 
 
         const commentWithUser = await models.Comment.findOne({
-            where: { id: newComment.id },
+            where: { id: comment.id },
             include: [{
                 model: models.User,
                 attributes: ['lastname', 'firstname']
